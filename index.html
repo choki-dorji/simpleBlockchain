@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <header>
+        <h1>My Wallet</h1>
+    </header>
+    <main>
+        <section class="account-info">
+            <h2>Account Information</h2>
+            <p>Account Address: <span id="account-address">0x1234...5678</span></p>
+            <p>Balance: <span id="account-balance"></span></p>
+        </section>
+        <section class="transaction-history">
+            <h2>Transaction History</h2>
+            <ul>
+                <li>
+                    <span class="transaction-type">Received</span>
+                    <span class="transaction-amount">10 ETH</span>
+                    from
+                    <span class="transaction-sender">0x7890...ABCD</span>
+                </li>
+                <!-- More transaction items go here -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <button id="send-funds-button">Send Funds</button>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.0/dist/web3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () 
+        {
+            web3 = new Web3(web3.currentProvider)
+            var address = "0xdfe0F374C907CF14059633FcD83830D3c16BfA93";
+            const abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "addAmount",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "subtractAmount",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "getBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+            const contract = new web3.eth.Contract(abi, address)
+            contract.methods.getBalance().call().then((val) => {
+                $('#account-balance').html(val)
+            })
+        })
+    </script>
+</body>
+</html>
